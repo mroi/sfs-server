@@ -1,6 +1,12 @@
 RewriteEngine on
 RewriteBase /
 
+# invoke index.php for commands, excluding downloads and direct file access
+RewriteCond %{QUERY_STRING} !^download$
+RewriteCond %{QUERY_STRING} . [OR]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule (.*) index.php [L]
+
 # set content-disposition header for downloads
 RewriteCond %{QUERY_STRING} ^download$
 RewriteRule . - [env=DOWNLOAD:1]
