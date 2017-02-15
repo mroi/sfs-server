@@ -10,3 +10,13 @@ server. I use SSH for now, until I get around to implementing a nice upload inte
 
 This work is licensed under the [GNU AGPL v3](http://www.gnu.org/licenses/agpl-3.0.html) or 
 higher.
+
+Query String Commands
+---------------------
+
+The server works by reacting to various commands which are passed in the query string 
+portion of the URL:
+
+**download**  
+Add a `Content-Disposition` header so that the browser downloads the file instead of 
+displaying it.

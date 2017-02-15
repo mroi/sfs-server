@@ -1,0 +1,7 @@
+RewriteEngine on
+RewriteBase /
+
+# set content-disposition header for downloads
+RewriteCond %{QUERY_STRING} ^download$
+RewriteRule . - [env=DOWNLOAD:1]
+Header set Content-Disposition attachment env=DOWNLOAD
