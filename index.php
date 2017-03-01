@@ -18,7 +18,12 @@ function fatalError($code = 500) {
 }
 
 /* dispatch query string commands to their implementations */
-switch ($_SERVER['QUERY_STRING']) {
-default:
-	fatalError(501);
+try {
+	switch ($_SERVER['QUERY_STRING']) {
+	default:
+		fatalError(501);
+	}
+}
+catch (Exception $e) {
+	fatalError();
 }
