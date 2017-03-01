@@ -1,7 +1,7 @@
 <?php
 require('command.php');
 
-function fatalError($code) {
+function fatalError($code = 500) {
 	switch ($code) {
 	case 404:
 		header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found');
