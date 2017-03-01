@@ -35,6 +35,10 @@ function fatalError($code = 500) {
 /* dispatch query string commands to their implementations */
 try {
 	switch ($_SERVER['QUERY_STRING']) {
+	case 'gc':
+		check(Assertion::Root);
+		Command\gc();
+		break;
 	default:
 		fatalError(501);
 	}
