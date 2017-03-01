@@ -12,6 +12,11 @@ RewriteCond %{QUERY_STRING} ^download$
 RewriteRule . - [env=DOWNLOAD:1]
 Header set Content-Disposition attachment env=DOWNLOAD
 
+# only index.php should be executable PHP
+<FilesMatch "^(?!index\.php$).*$">
+	SetHandler default-handler
+</FilesMatch>
+
 AddType application/zip .zip
 AddType audio/x-aiff .aiff
 AddType video/mp4 .m4v .mp4
