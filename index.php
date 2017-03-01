@@ -1,6 +1,21 @@
 <?php
 require('command.php');
 
+abstract class Assertion {
+	const Root = 0;
+}
+
+function check($assertion) {
+	$path = explode('?', $_SERVER['REQUEST_URI'])[0];
+	switch ($assertion) {
+	case Assertion::Root:
+		if ($path != '/') fatalError(404);
+		break;
+	default:
+		fatalError();
+	}
+}
+
 function fatalError($code = 500) {
 	switch ($code) {
 	case 404:
