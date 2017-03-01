@@ -1,4 +1,6 @@
 <?php
+require('command.php');
+
 function fatalError($code) {
 	switch ($code) {
 	case 404:
