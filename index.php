@@ -20,19 +20,20 @@ function fatalError($code = 500) {
 	sleep(1);  // rate limit simple brute force attacks
 	switch ($code) {
 	case 400:
-		header($_SERVER['SERVER_PROTOCOL'] . ' 400 Bad Request');
+		$header = '400 Bad Request';
 		break;
 	case 404:
-		header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found');
+		$header = '404 Not Found';
 		break;
 	default:
 	case 500:
-		header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error');
+		$header = '500 Internal Server Error';
 		break;
 	case 501:
-		header($_SERVER['SERVER_PROTOCOL'] . ' 501 Not Implemented');
+		$header = '501 Not Implemented';
 		break;
 	}
+	header($_SERVER['SERVER_PROTOCOL'] . ' ' . $header);
 	exit();
 }
 
