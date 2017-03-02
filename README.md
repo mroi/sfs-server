@@ -1,8 +1,13 @@
 Simple File Sharing
 ===================
 
-This project implements a simple PHP server for sharing files with others over an standard 
-web server. Just drop the files in a folder on your Apache and you should be good to go.
+This project implements a simple PHP server for sharing files with others over a standard 
+web server. Just clone this project in a folder on your Apache and you should be good to go.
+
+Each shared file is stored inside an enclosing folder with a sufficiently long random name. 
+This simple strategy ensures that shared files cannot be accessed without knowing the 
+correct URL. Only brute-force guessing of the secret names would allow enumeration of all 
+available downloads.
 
 Because this is work in progress, the server so far only implements the downloading part of 
 file sharing. Uploading has to be performed through administrative access to your web 
