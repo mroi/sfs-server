@@ -22,7 +22,7 @@ function ls() {
 
 		$props = array();
 		$props['secret'] = $item->getBasename();
-		$props['remaining'] = (time() + LIFETIME) - $item->getCTime();
+		$props['remaining'] = ($item->getCTime() + LIFETIME) - time();
 		// TODO: add more properties as needed
 
 		$name = $item->getBasename();  // TODO: call resolve to get filename from secret
