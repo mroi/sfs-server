@@ -7,7 +7,7 @@ define('LIFETIME', 2764800);
 
 function gc() {
 	foreach (ls() as $name => $props) {
-		if ($props['remaining'] > 0) continue;
+		if ($props['locked'] || $props['remaining'] > 0) continue;
 		rm($props['secret']);
 	}
 }
@@ -22,6 +22,7 @@ function ls() {
 
 		$props = array();
 		$props['secret'] = $item->getBasename();
+		$props['locked'] = !$item->isWritable();
 		$props['remaining'] = ($item->getCTime() + LIFETIME) - time();
 		// TODO: add more properties as needed
 
