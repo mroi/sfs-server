@@ -9,7 +9,7 @@ function check($assertion) {
 	$path = explode('?', $_SERVER['REQUEST_URI'])[0];
 	switch ($assertion) {
 	case Assertion::Root:
-		if ($path != '/') fatalError(404);
+		if ($path != '/') fatalError(400);
 		break;
 	default:
 		fatalError();
@@ -19,6 +19,9 @@ function check($assertion) {
 function fatalError($code = 500) {
 	sleep(1);  // rate limit simple brute force attacks
 	switch ($code) {
+	case 400:
+		header($_SERVER['SERVER_PROTOCOL'] . ' 400 Bad Request');
+		break;
 	case 404:
 		header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found');
 		break;
