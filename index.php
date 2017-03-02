@@ -17,6 +17,7 @@ function check($assertion) {
 }
 
 function fatalError($code = 500) {
+	sleep(1);  // rate limit simple brute force attacks
 	switch ($code) {
 	case 404:
 		header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found');
