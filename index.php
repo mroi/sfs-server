@@ -37,6 +37,7 @@ function fatalError($code = 500) {
 	exit();
 }
 
+
 /* dispatch query string commands to their implementations */
 try {
 	switch ($_SERVER['QUERY_STRING']) {
