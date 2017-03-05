@@ -35,8 +35,8 @@ function l10n(string $text) {
 
 function html(string $body, $header = '') {
 	$title = l10n('File Sharing');
-	// TODO: header += bootstrap loading
-	print("<!DOCTYPE html><html><head><title>${title}</title>${header}</head><body>${body}</body></html>");
+	$header .= '<link rel="stylesheet" href="/bootstrap.css">';
+	print("<!DOCTYPE html><html><head><title>${title}</title>${header}</head><body class=container>${body}</body></html>");
 }
 
 abstract class Assertion {
