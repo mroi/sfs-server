@@ -1,6 +1,38 @@
 <?php
 require('command.php');
 
+function l10n(string $text) {
+	static $languages = NULL;
+	static $translations = NULL;
+
+	if (!isset($languages) && isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+		// break Accept-Language into languages and q factors
+		preg_match_all('/(([a-z]{1,8})(-[a-z]{1,8})?)\s*(;\s*q\s*=\s*(1|0\.[0-9]+))?/i', $_SERVER['HTTP_ACCEPT_LANGUAGE'], $matches);
+		if (count($matches)) {
+			// create an array with entries like 'en' => 0.5
+			$languages = array_merge(array_combine($matches[1], $matches[5]),
+			                         array_combine($matches[2], $matches[5]));
+			foreach ($languages as $key => $value) {
+				if ($value === '') $languages[$key] = 1;
+			}
+			// order by descending q factor and drop q factor
+			arsort($languages, SORT_NUMERIC);
+			$languages = array_keys($languages);
+		}
+	}
+	if (isset($languages) && !isset($translations)) {
+		require('l10n.php');
+	}
+
+	if (isset($languages) && isset($translations)) {
+		foreach ($languages as $l) {
+			if (isset($translations[$text][$l])) return $translations[$text][$l];
+		}
+	}
+
+	return $text;
+}
+
 function html(string $body, $header = '') {
 	$title = l10n("File Sharing");
 	// TODO: header += bootstrap loading
