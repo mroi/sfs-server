@@ -9,9 +9,10 @@ function l10n(string $text) {
 		// break Accept-Language into languages and q factors
 		preg_match_all('/(([a-z]{1,8})(-[a-z]{1,8})?)\s*(;\s*q\s*=\s*(1|0\.[0-9]+))?/i', $_SERVER['HTTP_ACCEPT_LANGUAGE'], $matches);
 		if (count($matches)) {
-			// create an array with entries like 'en' => 0.5
-			$languages = array_merge(array_combine($matches[1], $matches[5]),
-			                         array_combine($matches[2], $matches[5]));
+			// Create an array with entries like 'en' => 0.5
+			// where 'en-us' also creates an 'en' entry.
+			$languages = array_merge(array_combine($matches[2], $matches[5]),
+			                         array_combine($matches[1], $matches[5]));
 			foreach ($languages as $key => $value) {
 				if ($value === '') $languages[$key] = 1;
 			}
