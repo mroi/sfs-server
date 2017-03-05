@@ -36,6 +36,7 @@ function l10n(string $text) {
 function html(string $body, $header = '') {
 	$title = l10n('File Sharing');
 	$header .= '<link rel="stylesheet" href="/bootstrap.css">';
+	$header .= '<style>body { margin-top:2em } .alert :first-child { margin-top:0 }</style>';
 	print("<!DOCTYPE html><html><head><title>${title}</title>${header}</head><body class=container>${body}</body></html>");
 }
 
@@ -58,29 +59,33 @@ function fatalError($code = 500) {
 	sleep(1);  // rate limit simple brute force attacks
 	switch ($code) {
 	case 400:
+		$style = 'warning';
 		$header = '400 Bad Request';
 		$message = 'Malformed Request';
 		$description = 'You have sent an invalid request that cannot work.';
 		break;
 	case 404:
+		$style = 'info';
 		$header = '404 Not Found';
 		$message = 'File Not Found';
 		$description = 'The requested file does not exist or it has been deleted.';
 		break;
 	default:
 	case 500:
+		$style = 'danger';
 		$header = '500 Internal Server Error';
 		$message = 'Internal Error';
 		$description = 'An unknown error occurred.';
 		break;
 	case 501:
+		$style = 'warning';
 		$header = '501 Not Implemented';
 		$message = 'Unknown Command';
 		$description = 'The command you sent is not implemented.';
 		break;
 	}
 	header($_SERVER['SERVER_PROTOCOL'] . ' ' . $header);
-	html('<h1>' . l10n($message) . '</h1><p>' . l10n($description) . '</p>');
+	html("<div class='alert alert-${style}'><h1 class=h4>" . l10n($message) . '</h1><p>' . l10n($description) . '</p></div>');
 	exit();
 }
 
