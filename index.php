@@ -34,7 +34,7 @@ function l10n(string $text) {
 }
 
 function html(string $body, $header = '') {
-	$title = l10n("File Sharing");
+	$title = l10n('File Sharing');
 	// TODO: header += bootstrap loading
 	print("<!DOCTYPE html><html><head><title>${title}</title>${header}</head><body>${body}</body></html>");
 }
@@ -59,24 +59,28 @@ function fatalError($code = 500) {
 	switch ($code) {
 	case 400:
 		$header = '400 Bad Request';
-		$message = 'The request is malformed.';
+		$message = 'Malformed Request';
+		$description = 'You have sent an invalid request that cannot work.';
 		break;
 	case 404:
 		$header = '404 Not Found';
-		$message = 'The file does not exist.';
+		$message = 'File Not Found';
+		$description = 'The requested file does not exist or it has been deleted.';
 		break;
 	default:
 	case 500:
 		$header = '500 Internal Server Error';
-		$message = 'An internal error occurred.';
+		$message = 'Internal Error';
+		$description = 'An unknown error occurred.';
 		break;
 	case 501:
 		$header = '501 Not Implemented';
-		$message = 'The command is not implemented.';
+		$message = 'Unknown Command';
+		$description = 'The command you sent is not implemented.';
 		break;
 	}
 	header($_SERVER['SERVER_PROTOCOL'] . ' ' . $header);
-	html('<h1>' . l10n($message) . '</h1>');
+	html('<h1>' . l10n($message) . '</h1><p>' . l10n($description) . '</p>');
 	exit();
 }
 
