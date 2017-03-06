@@ -22,8 +22,8 @@ $translations = array(
 	'The requested file does not exist or it has been deleted.' => array(
 		'de' => 'Die angeforderte Datei existiert nicht oder wurde gelöscht.'
 	),
-	'The <a %s>source code of this application</a> is available under the terms of the <a %s>AGPLv3 license</a>.' => array(
-		'de' => 'Der <a %s>Quellcode dieser Anwendung</a> ist verfügbar unter der <a %s>Lizenz AGPLv3</a>.'
+	'The <a %s>source code of this application</a> is available under the terms of the <a %s>AGPLv3&nbsp;license</a>.' => array(
+		'de' => 'Der <a %s>Quellcode dieser Anwendung</a> ist verfügbar unter der <a %s>Lizenz&nbsp;AGPLv3</a>.'
 	),
 	'Unknown Command' => array(
 		'de' => 'Unbekanntes Kommando'
