@@ -33,7 +33,7 @@ function ls() {
 	return $ls;
 }
 
-function rm(string $secret) {
+function rm($secret) {
 	$dir = __DIR__ . '/' . $secret;
 	$dirs = new \RecursiveDirectoryIterator($dir, \RecursiveDirectoryIterator::SKIP_DOTS);
 	$files = new \RecursiveIteratorIterator($dirs, \RecursiveIteratorIterator::CHILD_FIRST);

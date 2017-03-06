@@ -1,7 +1,7 @@
 <?php
 require('command.php');
 
-function l10n(string $text) {
+function l10n($text) {
 	static $languages = NULL;
 	static $translations = NULL;
 
@@ -44,7 +44,7 @@ function l10n(string $text) {
 	return $text;
 }
 
-function html(string $body, $header = '') {
+function html($body, $header = '') {
 	$title = l10n('File Sharing');
 	$header .= '<link rel="stylesheet" href="/bootstrap.css">';
 	$header .= '<style>body { margin-top:2em } .alert :first-child { margin-top:0 }</style>';
