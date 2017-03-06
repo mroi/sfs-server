@@ -48,6 +48,10 @@ function html($body, $header = '') {
 	$title = l10n('File Sharing');
 	$header .= '<link rel="stylesheet" href="/bootstrap.css">';
 	$header .= '<style>body { margin-top:2em } .alert :first-child { margin-top:0 }</style>';
+	$body .= '<footer class="text-center"><small class="text-muted">';
+	$body .= sprintf(l10n('The <a %s>source code of this application</a> is available under the terms of the <a %s>AGPLv3 license</a>.'),
+		'target="_blank" href="https://github.com/mroi/sfs-server"', 'target="_blank" href="http://www.gnu.org/licenses/agpl-3.0.html"');
+	$body .= '</small></footer>';
 	print("<!DOCTYPE html><html><head><title>${title}</title>${header}</head><body class=container>${body}</body></html>");
 }
 
