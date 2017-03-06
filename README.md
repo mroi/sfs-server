@@ -22,11 +22,11 @@ Query String Commands
 The server works by reacting to various commands which are passed in the query string 
 portion of the URL:
 
-**download**  
+**`?download`**  
 Add a `Content-Disposition` header so that the browser downloads the file instead of 
 displaying it.
 
-**gc**  
+**`?gc`**  
 Garbage-collects stored files. Uploads are automatically deleted after 32 days, when this 
 command is regularly run by a cron job. Collection can be delayed by touching the enclosing 
 folder or prevented indefinitely by changing permissions to read-only.
