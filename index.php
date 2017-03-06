@@ -6,18 +6,26 @@ function l10n(string $text) {
 	static $translations = NULL;
 
 	if (!isset($languages) && isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
-		// break Accept-Language into languages and q factors
+		// break Accept-Language into languages and q values
 		preg_match_all('/(([a-z]{1,8})(-[a-z]{1,8})?)\s*(;\s*q\s*=\s*(1|0\.[0-9]+))?/i', $_SERVER['HTTP_ACCEPT_LANGUAGE'], $matches);
 		if (count($matches)) {
-			// Create an array with entries like 'en' => 0.5
-			// where 'en-us' also creates an 'en' entry.
-			$languages = array_merge(array_combine($matches[2], $matches[5]),
-			                         array_combine($matches[1], $matches[5]));
+			// first create an array with short entries like 'en' => 0.5
+			$languages = array_combine($matches[2], $matches[5]);
+			// lower their q values a little
+			foreach ($languages as $key => $value) {
+				if ($value === '') $languages[$key] = 1;
+				$languages[$key] -= 0.01;
+			}
+			// add more specific entries like 'en-us'
+			// explicit short entries will overwrite the ones from above
+			$languages = array_merge($languages, array_combine($matches[1], $matches[5]));
+			// fixup q values again
 			foreach ($languages as $key => $value) {
 				if ($value === '') $languages[$key] = 1;
 			}
-			// order by descending q factor and drop q factor
+			// order by descending q value
 			arsort($languages, SORT_NUMERIC);
+			// now we do not need the q values any more
 			$languages = array_keys($languages);
 		} else {
 			$languages = array();
