@@ -19,13 +19,15 @@ function l10n(string $text) {
 			// order by descending q factor and drop q factor
 			arsort($languages, SORT_NUMERIC);
 			$languages = array_keys($languages);
+		} else {
+			$languages = array();
 		}
 	}
-	if (isset($languages) && !isset($translations)) {
+	if (count($languages) && !isset($translations)) {
 		require('l10n.php');
 	}
 
-	if (isset($languages) && isset($translations)) {
+	if (count($languages) && count($translations)) {
 		foreach ($languages as $l) {
 			if (isset($translations[$text][$l])) return $translations[$text][$l];
 		}
