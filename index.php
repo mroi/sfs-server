@@ -68,12 +68,17 @@ abstract class Request {
 
 abstract class Assertion {
 	const Root = 0;
+	const Secret = 1;
 }
 
 function check($assertion) {
 	switch ($assertion) {
 	case Assertion::Root:
 		if (Request::$path != '/') fatalError(400);
+		break;
+	case Assertion::Secret:
+		if (!preg_match('/^\/[A-Za-z0-9]+\/?$/', Request::$path)) fatalError(400);
+		if (!is_dir(__DIR__ . '/' . Request::$secret)) fatalError(404);
 		break;
 	default:
 		fatalError();
