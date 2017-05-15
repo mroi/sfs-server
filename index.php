@@ -55,15 +55,25 @@ function html($body, $header = '') {
 	print("<!DOCTYPE html><html><head><title>${title}</title>${header}</head><body class=container>${body}</body></html>");
 }
 
+abstract class Request {
+	public static $path;
+	public static $secret;
+	public static $command;
+	public static function parse() {
+		Request::$path = explode('?', $_SERVER['REQUEST_URI'])[0];
+		Request::$secret = trim(Request::$path, '/');
+		Request::$command = $_SERVER['QUERY_STRING'];
+	}
+}
+
 abstract class Assertion {
 	const Root = 0;
 }
 
 function check($assertion) {
-	$path = explode('?', $_SERVER['REQUEST_URI'])[0];
 	switch ($assertion) {
 	case Assertion::Root:
-		if ($path != '/') fatalError(400);
+		if (Request::$path != '/') fatalError(400);
 		break;
 	default:
 		fatalError();
@@ -107,7 +117,8 @@ function fatalError($code = 500) {
 
 /* dispatch query string commands to their implementations */
 try {
-	switch ($_SERVER['QUERY_STRING']) {
+	Request::parse();
+	switch (Request::$command) {
 	case 'gc':
 		check(Assertion::Root);
 		Command\gc();
