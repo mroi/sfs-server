@@ -59,11 +59,6 @@ abstract class Request {
 	public static $path;
 	public static $secret;
 	public static $command;
-	public static function parse() {
-		Request::$path = explode('?', $_SERVER['REQUEST_URI'])[0];
-		Request::$secret = trim(Request::$path, '/');
-		Request::$command = $_SERVER['QUERY_STRING'];
-	}
 }
 
 abstract class Assertion {
@@ -72,13 +67,18 @@ abstract class Assertion {
 }
 
 function check($assertion) {
+	$path = explode('?', $_SERVER['REQUEST_URI'])[0];
 	switch ($assertion) {
 	case Assertion::Root:
-		if (Request::$path != '/') fatalError(400);
+		if ($path != '/') fatalError(400);
+		Request::$path = $path;
 		break;
 	case Assertion::Secret:
-		if (!preg_match('/^\/[A-Za-z0-9]+\/?$/', Request::$path)) fatalError(400);
-		if (!is_dir(__DIR__ . '/' . Request::$secret)) fatalError(404);
+		if (!preg_match('/^\/[A-Za-z0-9]+\/?$/', $path)) fatalError(400);
+		$secret = trim($path, '/');
+		if (!is_dir(__DIR__ . '/' . $secret)) fatalError(404);
+		Request::$path = $path;
+		Request::$secret = $secret;
 		break;
 	default:
 		fatalError();
@@ -122,7 +122,7 @@ function fatalError($code = 500) {
 
 /* dispatch query string commands to their implementations */
 try {
-	Request::parse();
+	Request::$command = $_SERVER['QUERY_STRING'];
 	switch (Request::$command) {
 	case '':
 		// handle short links
