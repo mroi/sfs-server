@@ -124,6 +124,19 @@ function fatalError($code = 500) {
 try {
 	Request::parse();
 	switch (Request::$command) {
+	case '':
+		// handle short links
+		$script = '<script>'
+			. 'var secret = window.location.pathname;'
+			. 'if (window.location.hash.length) secret = window.location.hash;'
+			. 'secret = secret.replace(/[^A-Za-z0-9]/g, "");'
+			. 'window.location.href = "https://" + window.location.host + "/" + secret + "/?resolve";'
+			. '</script>';
+		$message = 'JavaScript Required';
+		$description = 'Short links need JavaScript enabled in your browser.';
+		$noscript = '<noscript><div class="alert alert-warning"><h1 class=h4>' . l10n($message) . '</h1><p>' . l10n($description) . '</p></div></noscript>';
+		html($noscript, $script);
+		break;
 	case 'gc':
 		check(Assertion::Root);
 		Command\gc();

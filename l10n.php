@@ -13,8 +13,14 @@ $translations = array(
 	'Internal Error' => array(
 		'de' => 'Interner Fehler'
 	),
+	'JavaScript Required' => array(
+		'de' => 'JavaScript benötigt'
+	),
 	'Malformed Request' => array(
 		'de' => 'Ungültige Anfrage'
+	),
+	'Short links need JavaScript enabled in your browser.' => array(
+		'de' => 'Für Kurz-Links muss JavaScript im Browser aktiviert sein.'
 	),
 	'The command you sent is not implemented.' => array(
 		'de' => 'Das gesendete Kommande ist nicht implementiert.'
