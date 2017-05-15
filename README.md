@@ -30,3 +30,8 @@ displaying it.
 Garbage-collects stored files. Uploads are automatically deleted after 32 days, when this 
 command is regularly run by a cron job. Collection can be delayed by touching the enclosing 
 folder or prevented indefinitely by changing permissions to read-only.
+
+**`?resolve`**  
+Given a secret folder name, redirect the user to the first file stored within that folder. 
+This command is used to implement short URLs that omit the file name and contain the secret 
+only.

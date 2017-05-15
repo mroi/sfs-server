@@ -128,6 +128,12 @@ try {
 		check(Assertion::Root);
 		Command\gc();
 		break;
+	case 'resolve':
+		check(Assertion::Secret);
+		$name = Command\resolve(Request::$secret);
+		if (!$name) fatalError(404);
+		header('Location: /' . Request::$secret . '/' . rawurlencode($name));
+		break;
 	default:
 		fatalError(501);
 	}

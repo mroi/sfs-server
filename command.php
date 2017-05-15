@@ -26,11 +26,22 @@ function ls() {
 		$props['remaining'] = ($item->getCTime() + LIFETIME) - time();
 		// TODO: add more properties as needed
 
-		$name = $item->getBasename();  // TODO: call resolve to get filename from secret
+		$name = resolve($item->getBasename());
 		$ls[$name] = $props;
 	}
 
 	return $ls;
+}
+
+function resolve($secret) {
+	$dir = __DIR__ . '/' . $secret;
+	$items = new \DirectoryIterator($dir);
+	foreach ($items as $item) {
+		// get the first file
+		if (!$item->isFile()) continue;
+		return $item->getBasename();
+	}
+	return NULL;
 }
 
 function rm($secret) {
