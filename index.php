@@ -128,9 +128,10 @@ try {
 		// handle short links
 		$script = '<script>'
 			. 'var secret = window.location.pathname;'
-			. 'if (window.location.hash.length) secret = window.location.hash;'
+			. 'if (window.location.hash.length && window.location.hash != "#download") secret = window.location.hash;'
 			. 'secret = secret.replace(/[^A-Za-z0-9]/g, "");'
-			. 'window.location.href = "https://" + window.location.host + "/" + secret + "/?resolve";'
+			. 'download = (window.location.hash == "#download") ? "&download" : "";'
+			. 'window.location.href = "https://" + window.location.host + "/" + secret + "/?resolve" + download;'
 			. '</script>';
 		$message = 'JavaScript Required';
 		$description = 'Short links need JavaScript enabled in your browser.';
@@ -142,10 +143,13 @@ try {
 		Command\gc();
 		break;
 	case 'resolve':
+	case 'resolve&download':
 		check(Assertion::Secret);
 		$name = Command\resolve(Request::$secret);
 		if (!$name) fatalError(404);
-		header('Location: /' . Request::$secret . '/' . rawurlencode($name));
+		$location = '/' . Request::$secret . '/' . rawurlencode($name);
+		if (preg_match('/download$/', Request::$command)) $location .= '?download';
+		header('Location: ' . $location);
 		break;
 	default:
 		fatalError(501);
