@@ -44,8 +44,8 @@ function l10n($text) {
 	return $text;
 }
 
-function html($body, $header = '') {
-	$title = l10n('File Sharing');
+function html($body, $header = '', $title = '') {
+	$title = l10n('File Sharing') . ($title ? ' &mdash; ' . $title : '');
 	$header .= '<link rel="stylesheet" href="/bootstrap.css">';
 	$header .= '<style>body { margin-top:2em } .alert :first-child { margin-top:0 }</style>';
 	$body .= '<footer class="text-center"><small class="text-muted">';
