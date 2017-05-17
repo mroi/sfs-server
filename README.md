@@ -9,6 +9,13 @@ This simple strategy ensures that shared files cannot be accessed without knowin
 correct URL. Only brute-force guessing of the secret names would allow enumeration of all 
 available downloads.
 
+You can send people short links of the form `https://example.com/<secret>#<command>` with 
+`<secret>` containing the secret folder name and the optional `<command>` part being either 
+`direct`, `download`, or `view`. Invoking such a short link redirects you to the file within 
+the secret folder directly or to a link with the `?download` or `?view` query string command 
+(see below). If the `<command>` part is omitted, the server decides based on the file type 
+whether to download or show it in the browser.
+
 Because this is work in progress, the server so far only implements the downloading part of 
 file sharing. Uploading has to be performed through administrative access to your web 
 server. I use SSH for now, until I get around to implementing a nice upload interface.

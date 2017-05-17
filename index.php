@@ -138,11 +138,9 @@ try {
 	case '':
 		// handle short links
 		$script = '<script>'
-			. 'var secret = window.location.pathname;'
-			. 'if (window.location.hash.length && window.location.hash != "#download") secret = window.location.hash;'
-			. 'secret = secret.replace(/[^A-Za-z0-9]/g, "");'
-			. 'download = (window.location.hash == "#download") ? "&download" : "";'
-			. 'window.location.href = "https://" + window.location.host + "/" + secret + "/?resolve" + download;'
+			. 'var secret = window.location.pathname.replace(/[^A-Za-z0-9]/g, "");'
+			. 'var command = window.location.hash.replace(/^#/, "&");'
+			. 'window.location.href = "https://" + window.location.host + "/" + secret + "/?resolve" + command;'
 			. '</script>';
 		$message = 'JavaScript Required';
 		$description = 'Short links need JavaScript enabled in your browser.';
