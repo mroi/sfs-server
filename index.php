@@ -64,6 +64,7 @@ abstract class Request {
 abstract class Assertion {
 	const Root = 0;
 	const Secret = 1;
+	const File = 2;
 }
 
 function check($assertion) {
@@ -77,6 +78,15 @@ function check($assertion) {
 		if (!preg_match('/^\/[A-Za-z0-9]+\/?$/', $path)) fatalError(400);
 		$secret = trim($path, '/');
 		if (!is_dir(__DIR__ . '/' . $secret)) fatalError(404);
+		Request::$path = $path;
+		Request::$secret = $secret;
+		break;
+	case Assertion::File:
+		if (!preg_match('/^\/([A-Za-z0-9]+)\//', $path, $matches)) fatalError(400);
+		$secret = $matches[1];
+		$file = realpath(__DIR__ . $path);
+		if (!(strpos($file, __DIR__ . '/' . $secret . '/') === 0)) fatalError(400);
+		if (!is_file($file)) fatalError(404);
 		Request::$path = $path;
 		Request::$secret = $secret;
 		break;
@@ -150,6 +160,14 @@ try {
 		$location = '/' . Request::$secret . '/' . rawurlencode($name);
 		if (preg_match('/download$/', Request::$command)) $location .= '?download';
 		header('Location: ' . $location);
+		break;
+	case 'view':
+		check(Assertion::File);
+		$style = '<style>'
+			. 'body,html { margin:0; padding:0; height:100%, overflow:hidden; }'
+			. '#view { position:absolute; left:0; right:0; top:0; bottom:0; }'
+			. '</style>';
+		html('<div id="view"><iframe width="100%" height="100%" frameborder="0" src="' . Request::$path . '"></iframe></div>', $style);
 		break;
 	default:
 		fatalError(501);
