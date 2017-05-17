@@ -43,3 +43,6 @@ Given a secret folder name, redirect the user to the first file stored within th
 This command is used to implement short URLs that omit the file name and contain the secret 
 only. Optionally, `&direct`, `&download`, or `&view` can be attached as a subcommand to 
 influence the kind of redirect generated.
+
+**`?view`**  
+Shows the file in an iframe while also providing a download button outside the iframe.

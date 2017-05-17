@@ -4,6 +4,9 @@ $translations = array(
 	'An unknown error occurred.' => array(
 		'de' => 'Ein unbekannter Fehler ist aufgetreten.'
 	),
+	'Download' => array(
+		'de' => 'Herunterladen'
+	),
 	'File Not Found' => array(
 		'de' => 'Datei nicht gefunden'
 	),

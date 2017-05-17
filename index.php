@@ -204,11 +204,18 @@ try {
 
 	case 'view':
 		check($request, Assertion::File);
+		$path = htmlspecialchars($request->path);
 		$style = '<style>'
-			. 'body,html { margin:0; padding:0; height:100%, overflow:hidden; }'
-			. '#view { position:absolute; left:0; right:0; top:0; bottom:0; }'
+			. 'body,html { margin:0; padding:0; background-color:#262626 !important; }'
+			. '#view { position:absolute; top:4em; bottom:0; left:0; right:0; }'
+			. '#download { float:right; margin-top:-1.2em; }'
+			. 'footer.text-center { text-align:left; margin-top:-0.7em; }'
 			. '</style>';
-		html('<div id="view"><iframe width="100%" height="100%" frameborder="0" src="' . $request->path . '"></iframe></div>', $style);
+		$iframe = '<div id="view">'
+			. '<iframe width="100%" height="100%" frameborder=0 src="' . $path . '">'
+			. '</iframe></div>'
+			. '<a id="download" class="btn btn-primary" href="' . $path . '?download">' . l10n('Download') . '</a>';
+		html($iframe, $style, basename($path));
 		break;
 
 	default:
