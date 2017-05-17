@@ -154,12 +154,30 @@ try {
 		break;
 
 	case 'resolve':
+	case 'resolve&direct':
 	case 'resolve&download':
+	case 'resolve&view':
 		check(Assertion::Secret);
 		$name = Command\resolve(Request::$secret);
 		if (!$name) fatalError(404);
 		$location = '/' . Request::$secret . '/' . rawurlencode($name);
-		if (preg_match('/download$/', Request::$command)) $location .= '?download';
+		switch (explode('&', Request::$command)[1]) {
+		case 'direct':
+			$location .= ''; break;
+		case 'download':
+			$location .= '?download'; break;
+		case 'view':
+			$location .= '?view'; break;
+		default:
+			// decide based on file suffix whether to view or to download
+			$viewable = array('jpg', 'jpeg', 'm4v', 'mov', 'mp4', 'png');
+			$suffix = pathinfo($name, PATHINFO_EXTENSION);
+			if (in_array($suffix, $viewable))
+				$location .= '?view';
+			else
+				$location .= '?download';
+			break;
+		}
 		header('Location: ' . $location);
 		break;
 

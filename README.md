@@ -41,4 +41,5 @@ folder or prevented indefinitely by changing permissions to read-only.
 **`?resolve`**  
 Given a secret folder name, redirect the user to the first file stored within that folder. 
 This command is used to implement short URLs that omit the file name and contain the secret 
-only.
+only. Optionally, `&direct`, `&download`, or `&view` can be attached as a subcommand to 
+influence the kind of redirect generated.
