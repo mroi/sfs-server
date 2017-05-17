@@ -55,10 +55,22 @@ function html($body, $header = '') {
 	print("<!DOCTYPE html><html><head><title>${title}</title>${header}</head><body class=container>${body}</body></html>");
 }
 
-abstract class Request {
-	public static $path;
-	public static $secret;
-	public static $command;
+class Request {
+	private $uri;
+	private $path;
+	private $secret;
+	private $command;
+	public function __construct() {
+		$this->uri = urldecode(explode('?', $_SERVER['REQUEST_URI'])[0]);
+		$this->command = $_SERVER['QUERY_STRING'];
+	}
+	public function __get($name) {
+		if (isset($this->$name)) return $this->$name;
+		throw new Exception('access to unvalidated request component');
+	}
+	public function __set($name, $value) {
+		$this->$name = $value;
+	}
 }
 
 abstract class Assertion {
@@ -67,28 +79,26 @@ abstract class Assertion {
 	const File = 2;
 }
 
-function check($assertion) {
-	$path = urldecode(explode('?', $_SERVER['REQUEST_URI'])[0]);
+function check($request, $assertion) {
 	switch ($assertion) {
 	case Assertion::Root:
-		if ($path != '/') fatalError(400);
-		Request::$path = $path;
+		if ($request->uri != '/') fatalError(400);
 		break;
 	case Assertion::Secret:
-		if (!preg_match('/^\/[A-Za-z0-9]+\/?$/', $path)) fatalError(400);
-		$secret = trim($path, '/');
+		if (!preg_match('/^\/[A-Za-z0-9]+\/?$/', $request->uri)) fatalError(400);
+		$secret = trim($request->uri, '/');
 		if (!is_dir(__DIR__ . '/' . $secret)) fatalError(404);
-		Request::$path = $path;
-		Request::$secret = $secret;
+		$request->path = $request->uri;
+		$request->secret = $secret;
 		break;
 	case Assertion::File:
-		if (!preg_match('/^\/([A-Za-z0-9]+)\//', $path, $matches)) fatalError(400);
+		if (!preg_match('/^\/([A-Za-z0-9]+)\//', $request->uri, $matches)) fatalError(400);
 		$secret = $matches[1];
-		$file = realpath(__DIR__ . $path);
+		$file = realpath(__DIR__ . $request->uri);
 		if (!(strpos($file, __DIR__ . '/' . $secret . '/') === 0)) fatalError(400);
 		if (!is_file($file)) fatalError(404);
-		Request::$path = $path;
-		Request::$secret = $secret;
+		$request->path = $request->uri;
+		$request->secret = $secret;
 		break;
 	default:
 		fatalError();
@@ -132,8 +142,9 @@ function fatalError($code = 500) {
 
 /* dispatch query string commands to their implementations */
 try {
-	Request::$command = $_SERVER['QUERY_STRING'];
-	switch (Request::$command) {
+	$request = new Request();
+
+	switch ($request->command) {
 
 	case '':
 		// handle short links
@@ -149,7 +160,7 @@ try {
 		break;
 
 	case 'gc':
-		check(Assertion::Root);
+		check($request, Assertion::Root);
 		Command\gc();
 		break;
 
@@ -157,11 +168,11 @@ try {
 	case 'resolve&direct':
 	case 'resolve&download':
 	case 'resolve&view':
-		check(Assertion::Secret);
-		$name = Command\resolve(Request::$secret);
+		check($request, Assertion::Secret);
+		$name = Command\resolve($request->secret);
 		if (!$name) fatalError(404);
-		$location = '/' . Request::$secret . '/' . rawurlencode($name);
-		switch (explode('&', Request::$command)[1]) {
+		$location = '/' . $request->secret . '/' . rawurlencode($name);
+		switch (explode('&', $request->command)[1]) {
 		case 'direct':
 			$location .= ''; break;
 		case 'download':
@@ -182,12 +193,12 @@ try {
 		break;
 
 	case 'view':
-		check(Assertion::File);
+		check($request, Assertion::File);
 		$style = '<style>'
 			. 'body,html { margin:0; padding:0; height:100%, overflow:hidden; }'
 			. '#view { position:absolute; left:0; right:0; top:0; bottom:0; }'
 			. '</style>';
-		html('<div id="view"><iframe width="100%" height="100%" frameborder="0" src="' . Request::$path . '"></iframe></div>', $style);
+		html('<div id="view"><iframe width="100%" height="100%" frameborder="0" src="' . $request->path . '"></iframe></div>', $style);
 		break;
 
 	default:
