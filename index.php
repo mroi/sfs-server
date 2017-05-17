@@ -53,7 +53,7 @@ function html($body, $header = '') {
 		'target="_blank" href="https://github.com/mroi/sfs-server"',
 		'target="_blank" href="http://www.gnu.org/licenses/agpl-3.0.html"');
 	$body .= '</small></footer>';
-	print("<!DOCTYPE html><html><head><title>${title}</title>${header}</head><body class=container>${body}</body></html>");
+	print("<!DOCTYPE html><html><head><meta charset=utf-8><title>${title}</title>${header}</head><body class=container>${body}</body></html>");
 }
 
 class Request {
