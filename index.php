@@ -67,7 +67,7 @@ abstract class Assertion {
 }
 
 function check($assertion) {
-	$path = explode('?', $_SERVER['REQUEST_URI'])[0];
+	$path = urldecode(explode('?', $_SERVER['REQUEST_URI'])[0]);
 	switch ($assertion) {
 	case Assertion::Root:
 		if ($path != '/') fatalError(400);
