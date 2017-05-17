@@ -46,6 +46,9 @@ function l10n($text) {
 
 function html($body, $header = '', $title = '') {
 	$title = l10n('File Sharing') . ($title ? ' &mdash; ' . $title : '');
+	$meta = '<meta charset="utf-8">'
+		. '<meta http-equiv="X-UA-Compatible" content="IE=edge">'
+		. '<meta name="viewport" content="width=device-width, initial-scale=1">';
 	$header .= '<link rel="stylesheet" href="/bootstrap.css">';
 	$header .= '<style>body { margin-top:2em } .alert :first-child { margin-top:0 }</style>';
 	$body .= '<footer class="text-center"><small class="text-muted">';
@@ -53,7 +56,7 @@ function html($body, $header = '', $title = '') {
 		'target="_blank" href="https://github.com/mroi/sfs-server"',
 		'target="_blank" href="http://www.gnu.org/licenses/agpl-3.0.html"');
 	$body .= '</small></footer>';
-	print("<!DOCTYPE html><html><head><meta charset=utf-8><title>${title}</title>${header}</head><body class=container>${body}</body></html>");
+	print("<!DOCTYPE html><html><head>${meta}<title>${title}</title>${header}</head><body class=container>${body}</body></html>");
 }
 
 class Request {
