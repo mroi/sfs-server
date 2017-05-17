@@ -134,6 +134,7 @@ function fatalError($code = 500) {
 try {
 	Request::$command = $_SERVER['QUERY_STRING'];
 	switch (Request::$command) {
+
 	case '':
 		// handle short links
 		$script = '<script>'
@@ -148,10 +149,12 @@ try {
 		$noscript = '<noscript><div class="alert alert-warning"><h1 class=h4>' . l10n($message) . '</h1><p>' . l10n($description) . '</p></div></noscript>';
 		html($noscript, $script);
 		break;
+
 	case 'gc':
 		check(Assertion::Root);
 		Command\gc();
 		break;
+
 	case 'resolve':
 	case 'resolve&download':
 		check(Assertion::Secret);
@@ -161,6 +164,7 @@ try {
 		if (preg_match('/download$/', Request::$command)) $location .= '?download';
 		header('Location: ' . $location);
 		break;
+
 	case 'view':
 		check(Assertion::File);
 		$style = '<style>'
@@ -169,6 +173,7 @@ try {
 			. '</style>';
 		html('<div id="view"><iframe width="100%" height="100%" frameborder="0" src="' . Request::$path . '"></iframe></div>', $style);
 		break;
+
 	default:
 		fatalError(501);
 	}
