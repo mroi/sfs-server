@@ -14,7 +14,7 @@ You can send people short links of the form `https://example.com/<secret>#<comma
 `direct`, `download`, or `view`. Invoking such a short link redirects you to the file within 
 the secret folder directly or to a link with the `?download` or `?view` query string command 
 (see below). If the `<command>` part is omitted, the server decides based on the file type 
-whether to download or show it in the browser.
+whether to download the file or show it in the browser.
 
 Because this is work in progress, the server so far only implements the downloading part of 
 file sharing. Uploading has to be performed through administrative access to your web 
