@@ -194,7 +194,7 @@ try {
 			$location .= '?view'; break;
 		default:
 			// decide based on file suffix whether to view or to download
-			$viewable = array('jpg', 'jpeg', 'm4v', 'mov', 'mp4', 'png');
+			$viewable = array('jpg', 'jpeg', 'm4v', 'mov', 'mp4', 'pdf', 'png');
 			$suffix = pathinfo($name, PATHINFO_EXTENSION);
 			if (in_array($suffix, $viewable))
 				$location .= '?view';
