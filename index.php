@@ -209,6 +209,7 @@ try {
 		check($request, Assertion::File);
 		$path = htmlspecialchars($request->path);
 		$style = '<style>'
+			. '@media (max-width: 640px) { footer { display:none !important; } }'
 			. 'body,html { margin:0; padding:0; background-color:#262626 !important; }'
 			. '#view { position:absolute; top:4em; bottom:0; left:0; right:0; }'
 			. '#download { float:left; margin-top:-1.2em; }'
