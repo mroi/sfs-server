@@ -211,8 +211,8 @@ try {
 		$style = '<style>'
 			. 'body,html { margin:0; padding:0; background-color:#262626 !important; }'
 			. '#view { position:absolute; top:4em; bottom:0; left:0; right:0; }'
-			. '#download { float:right; margin-top:-1.2em; }'
-			. 'footer.text-center { text-align:left; margin-top:-0.7em; }'
+			. '#download { float:left; margin-top:-1.2em; }'
+			. 'footer.text-center { text-align:right; margin-top:-0.7em; }'
 			. '</style>';
 		$iframe = '<div id="view">'
 			. '<iframe width="100%" height="100%" frameborder=0 src="' . $path . '">'
