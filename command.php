@@ -17,16 +17,16 @@ function ls() {
 
 	$items = new \DirectoryIterator(__DIR__);
 	foreach ($items as $item) {
-		if ($item->getBasename()[0] == '.') continue;
+		if ($item->getFilename()[0] == '.') continue;
 		if ($item->isLink() || !$item->isDir()) continue;
 
 		$props = array();
-		$props['secret'] = $item->getBasename();
+		$props['secret'] = $item->getFilename();
 		$props['locked'] = !$item->isWritable();
 		$props['remaining'] = ($item->getCTime() + LIFETIME) - time();
 		// TODO: add more properties as needed
 
-		$name = resolve($item->getBasename());
+		$name = resolve($props['secret']);
 		$ls[$name] = $props;
 	}
 
@@ -39,7 +39,7 @@ function resolve($secret) {
 	foreach ($items as $item) {
 		// get the first file
 		if (!$item->isFile()) continue;
-		return $item->getBasename();
+		return $item->getFilename();
 	}
 	return NULL;
 }
