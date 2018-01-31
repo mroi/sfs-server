@@ -41,6 +41,14 @@ function resolve($secret) {
 		if (!$item->isFile()) continue;
 		return $item->getFilename();
 	}
+	if (PHP_INT_MAX <= 2147483647) {
+		// on 32bit PHP, isFile() gives wrong answers for files >2GB
+		// find the first file with a dot in the name
+		foreach ($items as $item) {
+			$name = $item->getFilename();
+			if (strpos($name, '.') > 0) return $name;
+		}
+	}
 	return NULL;
 }
 

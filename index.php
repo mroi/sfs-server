@@ -99,8 +99,17 @@ function check($request, $assertion) {
 		if (!preg_match('/^\/([A-Za-z0-9]+)\//', $request->uri, $matches)) fatalError(400);
 		$secret = $matches[1];
 		$file = realpath(__DIR__ . $request->uri);
+		if (PHP_INT_MAX <= 2147483647) {
+			// on 32bit PHP, realpath() fails for files >2GB
+			$file = realpath(dirname(__DIR__ . $request->uri)) . '/' . basename($request->uri);
+		}
 		if (!(strpos($file, __DIR__ . '/' . $secret . '/') === 0)) fatalError(400);
-		if (!is_file($file)) fatalError(404);
+		if (PHP_INT_MAX <= 2147483647) {
+			// on 32bit PHP, is_file() gives wrong answers for files >2GB
+			if (is_dir($file) || is_link($file)) fatalError(404);
+		} else {
+			if (!is_file($file)) fatalError(404);
+		}
 		$request->path = $request->uri;
 		$request->secret = $secret;
 		break;
