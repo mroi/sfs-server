@@ -20,7 +20,7 @@ Because this is work in progress, the server so far only implements the download
 file sharing. Uploading has to be performed through administrative access to your web 
 server. I use SSH for now, until I get around to implementing a nice upload interface.
 
-This work is licensed under the [GNU AGPL v3](http://www.gnu.org/licenses/agpl-3.0.html) or 
+This work is licensed under the [GNU AGPL v3](https://www.gnu.org/licenses/agpl-3.0.html) or 
 higher.
 
 Query String Commands
