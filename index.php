@@ -119,7 +119,13 @@ function check($request, $assertion) {
 }
 
 function fatalError($code = 500) {
-	sleep(1);  // rate limit simple brute force attacks
+	// rate limit simple brute force attacks
+	$file = fopen(__FILE__, 'r+');
+	flock($file, LOCK_EX);
+	sleep(1);
+	flock($file, LOCK_UN);
+	fclose($file);
+
 	switch ($code) {
 	case 400:
 		$style = 'warning';
