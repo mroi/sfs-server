@@ -28,9 +28,10 @@ function l10n($text) {
 			arsort($languages, SORT_NUMERIC);
 			// now we do not need the q values any more
 			$languages = array_keys($languages);
-		} else {
-			$languages = array();
 		}
+	}
+	if (!isset($languages)) {
+		$languages = array();
 	}
 	if (count($languages) && !isset($translations)) {
 		require('l10n.php');
