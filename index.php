@@ -242,7 +242,6 @@ try {
 	default:
 		fatalError(501);
 	}
-}
-catch (Exception $e) {
+} catch (Exception $e) {
 	fatalError();
 }
