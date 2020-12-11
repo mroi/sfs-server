@@ -202,7 +202,7 @@ try {
 		$name = Command\resolve($request->secret);
 		if (!$name) fatalError(404);
 		$location = '/' . $request->secret . '/' . rawurlencode($name);
-		switch (explode('&', $request->command)[1]) {
+		switch (explode('&', $request->command)[1] ?? '') {
 		case 'direct':
 			$location .= ''; break;
 		case 'download':
