@@ -17,11 +17,6 @@ Header set Content-Disposition attachment env=DOWNLOAD
 	SetHandler default-handler
 </FilesMatch>
 
-# error log is not accessible
-<Files error.log>
-	Require all denied
-</Files>
-
 AddType application/zip .zip
 AddType audio/x-aiff .aiff
 AddType video/mp4 .m4v .mp4
