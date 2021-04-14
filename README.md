@@ -20,9 +20,6 @@ Because this is work in progress, the server so far only implements the download
 file sharing. Uploading has to be performed through administrative access to your web 
 server. I use SSH for now, until I get around to implementing a nice upload interface.
 
-This work is licensed under the [GNU AGPL v3](https://www.gnu.org/licenses/agpl-3.0.html) or 
-higher.
-
 Query String Commands
 ---------------------
 
@@ -46,3 +43,6 @@ influence the kind of redirect generated.
 
 **`?view`**  
 Shows the file in an iframe while also providing a download button outside the iframe.
+
+___
+This work is licensed under the [GNU AGPLv3](https://www.gnu.org/licenses/agpl-3.0.html).
